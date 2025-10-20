@@ -1,6 +1,6 @@
 # NALA-J
 
-Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website with horrible UI. But now it's actually usable if spend a couple of minutes setting it up.
+Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website with horrible UI. But now it's actually usable if you spend a couple of minutes setting it up.
 
 ## Before vs After
 
@@ -17,7 +17,7 @@ Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website wit
 
 - Block beforeunload popups.
 
-## How to Upgrade Nala-J
+## How to Upgrade NALA-J
 
 1. Go [here](https://www2.kobe-u.ac.jp/~kawatsu/nala/nala2022.02/em000_config.html)
    and select "自動で音声が流れます".
@@ -25,9 +25,9 @@ Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website wit
 <img src='media/config_autoplay_audio.png' width='400'>
 
 2. Install [Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne?hl=en)
-   and add [this style](style.css).
+   and add [this style](style.css) for `www2.kobe-u.ac.jp`.
 
 3. Install [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
    (or any alternative) and add [this userscript](userscript.js).
 
-4. You are ready to learn pitch [here](https://www2.kobe-u.ac.jp/~kawatsu/nala/nala2022.02/15_2haku_hint.html).
+4. You are ready to train pitch [here](https://www2.kobe-u.ac.jp/~kawatsu/nala/nala2022.02/15_2haku_hint.html).
