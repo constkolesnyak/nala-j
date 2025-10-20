@@ -1,9 +1,8 @@
 // ==UserScript==
-// @name         NALA-J Power Kit
-// @namespace    https://konst.dev/nala-j
-// @version      0.3
-// @description  Blocks beforeunload prompts, auto-starts practice, reflows layout with history on the right, zooms UI ~25%, and binds Space to re-play audio.
-// @match        file:///Users/konst/Downloads/NALA-J*.html
+// @name         NALA-J Userscript
+// @namespace    konst
+// @version      1
+// @description  Blocks beforeunload prompts, auto-starts practice, reflows layout with history on the right, and binds Space to re-play audio.
 // @match        https://www2.kobe-u.ac.jp/~kawatsu/nala/nala2022.02/*
 // @run-at       document-start
 // @all-frames   true
@@ -553,7 +552,9 @@ input[type="image"] {
             const url = new URL(href, window.location.href);
             url.hash = '';
             let pathname = decodeURIComponent(url.pathname);
-            pathname = pathname.replace(/index\.html?$/i, '').replace(/\/+$/, '');
+            pathname = pathname
+                .replace(/index\.html?$/i, '')
+                .replace(/\/+$/, '');
             const search = url.search || '';
             if (url.protocol === 'file:') {
                 return `${pathname}${search}`;
