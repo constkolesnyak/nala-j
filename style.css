@@ -534,6 +534,50 @@ input[type="image"]:active {
   margin-right: clamp(6px, 0.6vw, 12px);
 }
 
+#hintArea,
+#hintArea2 {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: clamp(12px, 1.2vw, 18px);
+  row-gap: clamp(6px, 0.8vw, 12px);
+  width: 100%;
+}
+
+#listenHint,
+#listenHint2 {
+  grid-column: 1;
+  justify-self: end;
+}
+
+#hintButtons,
+#hintButtons2 {
+  grid-column: 2;
+  justify-self: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(6px, 0.8vw, 12px);
+}
+
+#numberJumpArea {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(8px, 0.8vw, 14px);
+}
+
+#nJABox {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(6px, 0.6vw, 10px);
+}
+
+#nJAButton {
+  display: inline-flex;
+  align-items: center;
+}
+
 .answerAlt.typeNotZero.lastType {
   display: inline-flex;
   width: auto;
