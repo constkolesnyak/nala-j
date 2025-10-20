@@ -2,10 +2,10 @@
 
 Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website with horrible UI. But now it's actually usable if spend a couple of minutes setting it up.
 
-## After vs Before
+## Before vs After
 
-...
-...
+<img src='before.png' width='400'>
+<img src='after.png' width='400'>
 
 ## My Improvements
 
