@@ -4,8 +4,8 @@ Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website wit
 
 ## Before vs After
 
-<img src='before.png' width='400'>
-<img src='after.png' width='400'>
+<img src='media/before.png' width='400'>
+<img src='media/after.png' width='400'>
 
 ## My Improvements
 
@@ -22,7 +22,7 @@ Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website wit
 1. Go [here](https://www2.kobe-u.ac.jp/~kawatsu/nala/nala2022.02/em000_config.html)
    and select "自動で音声が流れます".
 
-<img src='config_autoplay_audio.png' width='400'>
+<img src='media/config_autoplay_audio.png' width='400'>
 
 2. Install [Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne?hl=en)
    and add [this style](style.css).
