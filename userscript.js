@@ -23,6 +23,8 @@
     let historyObserverTarget = null;
     let historyRestyleScheduled = false;
     let historyRestyleRunning = false;
+    let judgeObserver = null;
+    let judgeReleaseTimer = null;
 
     const LAYOUT_CSS = `
 :root {
@@ -551,6 +553,7 @@ input[type="image"] {
 
         scheduleHistoryRestyle();
         observeHistoryEntries();
+        observeJudgeResultArea();
     }
 
     function styleHistoryEntries() {
@@ -642,6 +645,80 @@ input[type="image"] {
             characterData: true,
         });
         historyObserverTarget = container;
+    }
+
+    function releaseClickBlockSoon() {
+        if (typeof window === 'undefined') return;
+        if (typeof window.isClickBlock !== 'boolean' || !window.isClickBlock) return;
+
+        if (judgeReleaseTimer) {
+            window.clearTimeout(judgeReleaseTimer);
+            judgeReleaseTimer = null;
+        }
+
+        const schedule =
+            (typeof window.requestAnimationFrame === 'function' &&
+                window.requestAnimationFrame.bind(window)) ||
+            ((fn) => window.setTimeout(fn, 16));
+
+        schedule(() => {
+            if (typeof window.isClickBlock !== 'boolean' || !window.isClickBlock)
+                return;
+            judgeReleaseTimer = window.setTimeout(() => {
+                judgeReleaseTimer = null;
+                if (typeof window.isClickBlock === 'boolean') {
+                    window.isClickBlock = false;
+                }
+                const judge = document.getElementById('judgeResult');
+                if (judge && judge.parentElement) {
+                    judge.parentElement.removeChild(judge);
+                }
+            }, 1800);
+        });
+    }
+
+    function ensureClickBlockReleased() {
+        if (typeof window === 'undefined') return;
+        if (typeof window.isClickBlock !== 'boolean' || !window.isClickBlock)
+            return;
+
+        const area = document.getElementById('judgeResultArea');
+        if (!area) {
+            window.isClickBlock = false;
+            return;
+        }
+
+        if (area.querySelector('#judgeResult')) {
+            releaseClickBlockSoon();
+        } else {
+            window.isClickBlock = false;
+        }
+    }
+
+    function observeJudgeResultArea() {
+        const area = document.getElementById('judgeResultArea');
+        if (!area) {
+            if (judgeObserver) {
+                judgeObserver.disconnect();
+                judgeObserver = null;
+            }
+            ensureClickBlockReleased();
+            return;
+        }
+
+        ensureClickBlockReleased();
+
+        if (!judgeObserver) {
+            judgeObserver = new MutationObserver(() => {
+                ensureClickBlockReleased();
+            });
+        } else {
+            judgeObserver.disconnect();
+        }
+
+        judgeObserver.observe(area, {
+            childList: true,
+        });
     }
 
     function normalizeHref(href) {
@@ -818,6 +895,7 @@ input[type="image"] {
         ensureHistoryColumn();
         expandNavigation();
         normalizeNavLinks();
+        observeJudgeResultArea();
 
         if (!layoutObserver && wrapper) {
             layoutObserver = new MutationObserver(() => {
@@ -825,6 +903,7 @@ input[type="image"] {
                 ensureHistoryColumn();
                 expandNavigation();
                 normalizeNavLinks();
+                observeJudgeResultArea();
             });
             layoutObserver.observe(wrapper, {
                 childList: true,
@@ -905,6 +984,7 @@ input[type="image"] {
     function enhance() {
         injectStylesheet();
         restructureLayout();
+        observeJudgeResultArea();
         bindShortcut();
     }
 

@@ -103,8 +103,22 @@ a:focus {
 }
 
 #nav-content .globalMenuElementHeader {
+  position: relative;
+  display: block;
+  padding: clamp(8px, 1vw, 12px) clamp(14px, 1.6vw, 20px);
+  margin-bottom: clamp(6px, 0.8vw, 12px);
   color: var(--nala-color-text);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(
+    150deg,
+    rgba(14, 165, 233, 0.45),
+    rgba(8, 47, 73, 0.85)
+  );
+  border-left: 4px solid rgba(14, 165, 233, 0.85);
+  border-radius: clamp(10px, 1vw, 16px);
+  box-shadow: 0 10px 24px rgba(8, 17, 35, 0.32);
 }
 
 #nav-content details {
@@ -123,7 +137,12 @@ a:focus {
   pointer-events: none;
   color: var(--nala-color-text);
   font-weight: 500;
-  margin-bottom: clamp(6px, 0.8vw, 12px);
+  margin-bottom: clamp(4px, 0.6vw, 10px);
+  padding: clamp(4px, 0.5vw, 8px) clamp(10px, 1.2vw, 16px);
+  background: rgba(56, 189, 248, 0.16);
+  border-left: 3px solid rgba(56, 189, 248, 0.35);
+  border-radius: clamp(8px, 0.8vw, 14px);
+  box-shadow: 0 6px 14px rgba(8, 17, 35, 0.18);
 }
 
 #nav-content summary::-webkit-details-marker,
@@ -164,11 +183,12 @@ a:focus {
 #nav-content .nala-current-item {
   color: var(--nala-color-text);
   background: linear-gradient(
-    110deg,
-    rgba(14, 165, 233, 0.4),
-    rgba(14, 165, 233, 0.08)
+    125deg,
+    rgba(56, 189, 248, 0.28),
+    rgba(99, 102, 241, 0.4),
+    rgba(30, 27, 75, 0.72)
   );
-  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.18);
+  box-shadow: 0 8px 18px rgba(8, 17, 35, 0.32);
 }
 
 #nav-content .nala-current-item::before {
@@ -177,12 +197,13 @@ a:focus {
   inset: calc(-clamp(3px, 0.4vw, 6px)) calc(-clamp(6px, 0.6vw, 10px))
     calc(-clamp(3px, 0.4vw, 6px)) calc(-clamp(12px, 1.2vw, 18px));
   background: linear-gradient(
-    90deg,
-    rgba(14, 165, 233, 0.45),
-    rgba(14, 165, 233, 0.12)
+    115deg,
+    rgba(59, 130, 246, 0.38),
+    rgba(129, 140, 248, 0.32),
+    rgba(76, 29, 149, 0.4)
   );
-  border: 1px solid rgba(14, 165, 233, 0.45);
-  border-left: 4px solid var(--nala-color-accent-strong);
+  border: 1px solid rgba(129, 140, 248, 0.42);
+  border-left: 4px solid rgba(129, 140, 248, 0.78);
   border-radius: clamp(10px, 1vw, 14px);
   pointer-events: none;
 }
@@ -262,6 +283,33 @@ main.nala-main-column > *,
   background-color: var(--nala-color-bg);
   box-shadow: none;
   color: var(--nala-color-text);
+}
+
+#judgeResult {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(2.4rem, 2.0rem + 0.4vw, 2.8rem);
+  min-height: clamp(2.4rem, 2.0rem + 0.4vw, 2.8rem);
+  padding: clamp(0.4rem, 0.35rem + 0.15vw, 0.6rem);
+  border-radius: clamp(10px, 1vw, 14px);
+  font-size: clamp(1.2rem, 1.0rem + 0.4vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: 0 14px 32px rgba(8, 17, 35, 0.42);
+  border: 1px solid transparent;
+}
+
+#judgeResult.bg-blue {
+  background-color: #14532d;
+  border-color: rgba(34, 197, 94, 0.45);
+  color: #dcfce7;
+}
+
+#judgeResult.bg-red {
+  background-color: #7f1d1d;
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #fee2e2;
 }
 
 #questionText {
@@ -444,6 +492,10 @@ main.nala-main-column > *:not(#recentHistory):not(#historyTable) {
 }
 
 div#recentHistory {
+  display: none;
+}
+
+div#jumpArea {
   display: none;
 }
 
