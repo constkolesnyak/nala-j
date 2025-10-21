@@ -554,6 +554,7 @@ input[type="image"] {
         scheduleHistoryRestyle();
         observeHistoryEntries();
         observeJudgeResultArea();
+        ensurePlayButtonPatched();
     }
 
     function styleHistoryEntries() {
@@ -647,9 +648,50 @@ input[type="image"] {
         historyObserverTarget = container;
     }
 
+    function ensureAudioPlaybackReady() {
+        try {
+            const doc = document;
+            if (!doc || !doc.documentElement) return;
+            const script = doc.createElement('script');
+            script.textContent = `(function(){try{if(typeof canPlayHearSound!=='undefined'&&canPlayHearSound===false){canPlayHearSound=true;}if(typeof isClickBlock!=='undefined'&&isClickBlock===true&&!document.getElementById('judgeResult')){isClickBlock=false;}}catch(_){}})();`;
+            doc.documentElement.appendChild(script);
+            script.remove();
+        } catch (_) {
+            /* ignore */
+        }
+    }
+
+    function ensurePlayButtonPatched() {
+        const button = document.getElementById(PLAY_BUTTON_ID);
+        if (!button || button.dataset.nalaPatched) return;
+
+        button.dataset.nalaPatched = '1';
+        button.addEventListener(
+            'click',
+            () => {
+                ensureAudioPlaybackReady();
+                setTimeout(() => {
+                    try {
+                        const doc = document;
+                        if (!doc || !doc.documentElement) return;
+                        const script = doc.createElement('script');
+                        script.textContent =
+                            "(function(){try{if(typeof quesSound!=='undefined'&&quesSound&&typeof quesSound.play==='function'){quesSound.play();}}catch(_){}})();";
+                        doc.documentElement.appendChild(script);
+                        script.remove();
+                    } catch (_) {
+                        /* ignore */
+                    }
+                }, 0);
+            },
+            true
+        );
+    }
+
     function releaseClickBlockSoon() {
         if (typeof window === 'undefined') return;
-        if (typeof window.isClickBlock !== 'boolean' || !window.isClickBlock) return;
+        if (typeof window.isClickBlock !== 'boolean' || !window.isClickBlock)
+            return;
 
         if (judgeReleaseTimer) {
             window.clearTimeout(judgeReleaseTimer);
@@ -662,7 +704,10 @@ input[type="image"] {
             ((fn) => window.setTimeout(fn, 16));
 
         schedule(() => {
-            if (typeof window.isClickBlock !== 'boolean' || !window.isClickBlock)
+            if (
+                typeof window.isClickBlock !== 'boolean' ||
+                !window.isClickBlock
+            )
                 return;
             judgeReleaseTimer = window.setTimeout(() => {
                 judgeReleaseTimer = null;
@@ -896,6 +941,7 @@ input[type="image"] {
         expandNavigation();
         normalizeNavLinks();
         observeJudgeResultArea();
+        ensurePlayButtonPatched();
 
         if (!layoutObserver && wrapper) {
             layoutObserver = new MutationObserver(() => {
@@ -904,6 +950,7 @@ input[type="image"] {
                 expandNavigation();
                 normalizeNavLinks();
                 observeJudgeResultArea();
+                ensurePlayButtonPatched();
             });
             layoutObserver.observe(wrapper, {
                 childList: true,
@@ -966,6 +1013,7 @@ input[type="image"] {
             }
 
             if (event.type === 'keydown' && !event.repeat) {
+                ensureAudioPlaybackReady();
                 button.click();
                 if (typeof button.blur === 'function') {
                     requestAnimationFrame(() => button.blur());
@@ -985,6 +1033,7 @@ input[type="image"] {
         injectStylesheet();
         restructureLayout();
         observeJudgeResultArea();
+        ensurePlayButtonPatched();
         bindShortcut();
     }
 
