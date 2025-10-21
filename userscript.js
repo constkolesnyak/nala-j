@@ -19,6 +19,10 @@
     let layoutObserver = null;
     let historyMoving = false;
     let shortcutBound = false;
+    let historyObserver = null;
+    let historyObserverTarget = null;
+    let historyRestyleScheduled = false;
+    let historyRestyleRunning = false;
 
     const LAYOUT_CSS = `
 :root {
@@ -544,6 +548,100 @@ input[type="image"] {
         } finally {
             historyMoving = false;
         }
+
+        scheduleHistoryRestyle();
+        observeHistoryEntries();
+    }
+
+    function styleHistoryEntries() {
+        if (historyRestyleRunning) return;
+
+        const container = document.getElementById('type0HistoryTableContent');
+        if (!container) return;
+
+        historyRestyleRunning = true;
+        try {
+            Array.from(container.children).forEach((entry) => {
+                if (!(entry instanceof HTMLElement)) return;
+
+                const resultSpan = entry.querySelector('span[id]');
+                if (!resultSpan) return;
+
+                const rawText = resultSpan.textContent || '';
+                const sanitized = rawText
+                    .replace(/\u25cb/gi, ' ')
+                    .replace(/\uFF3F/g, ' ')
+                    .replace(/_/g, ' ');
+                const normalized = sanitized.replace(/\s+/g, ' ').trim();
+
+                if (normalized !== rawText) {
+                    resultSpan.textContent = normalized;
+                }
+
+                const hasDigits = /\d/.test(normalized);
+                const targetClass = hasDigits
+                    ? 'nala-history-error'
+                    : 'nala-history-correct';
+                const otherClass = hasDigits
+                    ? 'nala-history-correct'
+                    : 'nala-history-error';
+
+                if (
+                    !entry.classList.contains(targetClass) ||
+                    entry.classList.contains(otherClass)
+                ) {
+                    entry.classList.remove(
+                        'nala-history-error',
+                        'nala-history-correct'
+                    );
+                    entry.classList.add(targetClass);
+                }
+            });
+        } finally {
+            historyRestyleRunning = false;
+        }
+    }
+
+    function scheduleHistoryRestyle() {
+        if (historyRestyleScheduled) return;
+        historyRestyleScheduled = true;
+        const schedule =
+            (typeof window !== 'undefined' &&
+                window.requestAnimationFrame &&
+                window.requestAnimationFrame.bind(window)) ||
+            ((fn) => window.setTimeout(fn, 16));
+        schedule(() => {
+            historyRestyleScheduled = false;
+            styleHistoryEntries();
+        });
+    }
+
+    function observeHistoryEntries() {
+        const container = document.getElementById('type0HistoryTableContent');
+        if (!container) {
+            if (historyObserver) historyObserver.disconnect();
+            historyObserverTarget = null;
+            return;
+        }
+
+        scheduleHistoryRestyle();
+
+        if (historyObserverTarget === container) return;
+
+        if (!historyObserver) {
+            historyObserver = new MutationObserver(() => {
+                scheduleHistoryRestyle();
+            });
+        } else {
+            historyObserver.disconnect();
+        }
+
+        historyObserver.observe(container, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+        });
+        historyObserverTarget = container;
     }
 
     function normalizeHref(href) {

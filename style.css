@@ -443,6 +443,60 @@ main.nala-main-column > *:not(#recentHistory):not(#historyTable) {
   overflow-y: auto;
 }
 
+div#recentHistory {
+  display: none;
+}
+
+#type0HistoryTableContent {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 0.9vw, 14px);
+}
+
+#type0HistoryTableContent > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(8px, 1vw, 16px);
+  padding: clamp(8px, 0.9vw, 14px) clamp(12px, 1.1vw, 18px);
+  border-radius: clamp(8px, 0.9vw, 14px);
+  background-color: var(--nala-color-surface-alt);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+#type0HistoryTableContent > div.nala-history-correct {
+  background-color: #14532d;
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+#type0HistoryTableContent > div.nala-history-error {
+  background-color: #7f1d1d;
+  border-color: rgba(248, 113, 113, 0.45);
+}
+
+#type0HistoryTableContent > div:hover {
+  transform: translateY(-1px);
+}
+
+#type0HistoryTableContent > div span[id] {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--nala-color-text);
+}
+
+#type0HistoryTableContent a {
+  color: var(--nala-color-text);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+#type0HistoryTableContent a:hover,
+#type0HistoryTableContent a:focus {
+  color: var(--nala-color-accent);
+}
+
 button,
 input[type="button"],
 input[type="submit"],
