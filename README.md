@@ -4,7 +4,7 @@ Stands for "Nihongo Accent Learning Aid - Japanese". It's an ancient website wit
 
 ## After vs Before
 
-![](media/after.png)
+![](media/after.jpeg)
 ![](media/before.png)
 
 <!-- <img src='media/after.png' width='400'>
